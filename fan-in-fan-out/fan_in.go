@@ -19,6 +19,7 @@ func updatePosition(name string) <-chan string {
 	return positionChannel
 }
 
+// Fan-In refers to a technique in which you join data from multiple inputs into a single entity.
 func fanIn(mychannel1, mychannel2 <-chan string) <-chan string {
 	mychannel := make(chan string)
 
