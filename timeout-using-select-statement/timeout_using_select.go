@@ -14,7 +14,6 @@ func main() {
 	dynamite := make(chan string)
 
 	go func() {
-		rand.Seed(time.Now().UnixNano())
 		time.Sleep(time.Duration(rand.Intn(500)) * time.Millisecond)
 		dynamite <- "Dynamite Diffused!"
 	}()

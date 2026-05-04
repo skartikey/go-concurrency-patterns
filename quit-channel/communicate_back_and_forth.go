@@ -13,7 +13,6 @@ func Race(channel, quit chan string, i int) {
 
 	channel <- fmt.Sprintf("Car %d started!", i)
 	for {
-		rand.Seed(time.Now().UnixNano())
 		time.Sleep(time.Duration(rand.Intn(500)+500) * time.Millisecond)
 		quit <- fmt.Sprintf("Car %d reached the finishing line!", i)
 		fmt.Println(<-quit)
