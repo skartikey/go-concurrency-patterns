@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
-	"time"
 )
 
 // Fan-Out means to divide the data from a single source into multiple smaller chunks
@@ -12,7 +11,6 @@ import (
 func main() {
 	var myNumbers [10]int
 	for i := 0; i < 10; i++ {
-		rand.Seed(time.Now().UnixNano())
 		myNumbers[i] = rand.Intn(50)
 	}
 
