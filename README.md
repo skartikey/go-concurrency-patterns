@@ -15,6 +15,7 @@ Standalone, runnable Go examples of common concurrency patterns. Each pattern li
 | [fan-in-fan-out](fan-in-fan-out) | Multiplex N inputs into one (fan-in); split work across N workers (fan-out). |
 | [pipeline](pipeline) | Multi-stage pipeline connected by channels with a shared `done` for cancellation. |
 | [worker-pool](worker-pool) | Fixed-size pool of long-lived workers consuming jobs from a shared channel. |
+| [semaphore](semaphore) | Cap concurrent goroutines with a buffered `chan struct{}` (counting semaphore). |
 | [context-cancellation](context-cancellation) | `context.WithCancel` and `context.WithTimeout`, the modern replacement for the quit-channel. |
 | [errgroup](errgroup) | `golang.org/x/sync/errgroup` for parallel tasks that can fail. |
 
