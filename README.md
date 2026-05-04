@@ -17,6 +17,7 @@ Standalone, runnable Go examples of common concurrency patterns. Each pattern li
 | [worker-pool](worker-pool) | Fixed-size pool of long-lived workers consuming jobs from a shared channel. |
 | [context-cancellation](context-cancellation) | `context.WithCancel` and `context.WithTimeout`, the modern replacement for the quit-channel. |
 | [errgroup](errgroup) | `golang.org/x/sync/errgroup` for parallel tasks that can fail. |
+| [mutex-vs-channel](mutex-vs-channel) | The same counter solved with `sync.Mutex` and with channel-owned state, with notes on when each fits. |
 
 ## Running an example
 
