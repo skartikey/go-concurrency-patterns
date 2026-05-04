@@ -1,35 +1,51 @@
 # go-concurrency-patterns
 
-Standalone, runnable Go examples of common concurrency patterns. Each pattern lives in its own directory.
+Standalone, runnable Go examples of common concurrency patterns, plus real-world examples that combine them.
+
+Every pattern lives in its own folder under [`patterns/`](patterns) with a `main.go` you can run and a `README.md` that explains the problem, when to use it, the goroutine/channel topology (Mermaid diagram), and what running the example looks like.
 
 ## Patterns
 
-| Directory | What it shows |
-|-----------|---------------|
-| [generator-pattern](generator-pattern) | A goroutine returns a channel that yields successive values. |
-| [range-and-close](range-and-close) | Producer closes the channel; consumer ranges until close. |
-| [for-select-loop](for-select-loop) | The `for { select {} }` idiom for multiplexing channel reads. |
-| [timeout-using-select-statement](timeout-using-select-statement) | Bound a channel receive with `time.After` inside a select. |
-| [quit-channel](quit-channel) | Signal goroutine shutdown via a dedicated channel. |
-| [sequencing](sequencing) | Coordinate goroutines by sending a channel over a channel. |
-| [fan-in-fan-out](fan-in-fan-out) | Multiplex N inputs into one (fan-in); split work across N workers (fan-out). |
-| [pipeline](pipeline) | Multi-stage pipeline connected by channels with a shared `done` for cancellation. |
-| [worker-pool](worker-pool) | Fixed-size pool of long-lived workers consuming jobs from a shared channel. |
-| [context-cancellation](context-cancellation) | `context.WithCancel` and `context.WithTimeout`, the modern replacement for the quit-channel. |
-| [errgroup](errgroup) | `golang.org/x/sync/errgroup` for parallel tasks that can fail. |
-| [mutex-vs-channel](mutex-vs-channel) | The same counter solved with `sync.Mutex` and with channel-owned state, with notes on when each fits. |
+| Pattern | What it shows |
+|---------|---------------|
+| [generator](patterns/generator) | A goroutine returns a channel that yields successive values. |
+| [channel-range-close](patterns/channel-range-close) | Producer closes the channel; consumer ranges until close. |
+| [select-loop](patterns/select-loop) | The `for { select {} }` idiom for multiplexing channel reads. |
+| [timeout](patterns/timeout) | Bound a channel receive with `time.After` inside a select. |
+| [graceful-shutdown](patterns/graceful-shutdown) | Tell long-running goroutines to stop cleanly via a quit channel. |
+| [sequencing](patterns/sequencing) | Coordinate goroutines step by step by sending a channel inside a message. |
+| [fan-in](patterns/fan-in) | Multiplex N input channels into one stream. |
+| [fan-out](patterns/fan-out) | Spread one stream of work across N concurrent workers. |
+| [pipeline](patterns/pipeline) | Multi-stage pipeline connected by channels with a shared `done` for cancellation. |
+| [worker-pool](patterns/worker-pool) | Fixed-size pool of long-lived workers consuming jobs from a shared channel. |
+| [concurrency-limit-semaphore](patterns/concurrency-limit-semaphore) | Cap concurrent goroutines with a buffered `chan struct{}`. |
+| [context-cancel](patterns/context-cancel) | `context.WithCancel` for propagating cancellation across goroutines. |
+| [context-timeout](patterns/context-timeout) | `context.WithTimeout` for bounding an operation's total time. |
+| [errgroup](patterns/errgroup) | `golang.org/x/sync/errgroup` for parallel tasks that can fail. |
+| [mutex-vs-channel](patterns/mutex-vs-channel) | The same counter solved with `sync.Mutex` and with channel-owned state. |
+
+## Real-world examples
+
+| Example | What it shows |
+|---------|---------------|
+| [concurrent-fetcher](examples/concurrent-fetcher) | Fetch N URLs in parallel with errgroup + context, fail-fast cancellation. |
+| [bounded-downloader](examples/bounded-downloader) | Download a list of files with semaphore-capped concurrency. |
+| [job-queue-worker-pool](examples/job-queue-worker-pool) | Background job processing with a fixed pool of workers and a results aggregator. |
 
 ## Running an example
 
-Each `.go` file is its own `package main`, so run them individually:
+Each pattern and example is a `main` package, so run them with `go run`:
 
 ```bash
-go run generator-pattern/fibonacci.go
-go run pipeline/pipeline_parallel.go
-go run errgroup/errgroup_with_context.go
+go run ./patterns/worker-pool
+go run ./examples/job-queue-worker-pool
 ```
 
-`go build ./...` and `go test ./...` will fail because several directories declare more than one `main`. This is intentional: each file is a self-contained demo.
+Build everything in one go:
+
+```bash
+go build ./...
+```
 
 ## Requires
 
