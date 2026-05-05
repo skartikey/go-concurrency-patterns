@@ -12,8 +12,8 @@ Long-running goroutines need to be told "stop, finish what you're holding, and e
 ```mermaid
 flowchart LR
     M[main] -->|close quit| Q[quit chan]
-    W1[worker 1] -. select on quit .-> Q
-    W2[worker 2] -. select on quit .-> Q
+    W1[worker 1] -.->|select on quit| Q
+    W2[worker 2] -.->|select on quit| Q
     W1 -->|out chan| M
     W2 -->|out chan| M
 ```

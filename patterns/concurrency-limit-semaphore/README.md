@@ -13,7 +13,7 @@ Many goroutines each want to run a short critical section, but only N may be doi
 flowchart LR
     G1[goroutine 1] -->|acquire| S(sem buffered chan)
     G2[goroutine 2] -->|acquire| S
-    GN[goroutine N+1] -. blocks until slot frees .-> S
+    GN[goroutine N+1] -.->|blocks until slot frees| S
     S -->|release| F[free slot]
 ```
 

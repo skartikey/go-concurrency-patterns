@@ -12,9 +12,9 @@ flowchart LR
     EG -->|g.Go| F1[fetch URL 1]
     EG -->|g.Go| F2[fetch URL 2]
     EG -->|g.Go| F3[fetch URL 3]
-    F1 -. error or ctx done .-> EG
-    F2 -. error or ctx done .-> EG
-    F3 -. error or ctx done .-> EG
+    F1 -.->|error or ctx done| EG
+    F2 -.->|error or ctx done| EG
+    F3 -.->|error or ctx done| EG
     EG -->|g.Wait| RES[results or first error]
 ```
 

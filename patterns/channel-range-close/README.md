@@ -13,7 +13,7 @@ A producer sends a finite stream of values; the consumer needs to know when ther
 flowchart LR
     P[producer] -->|send| C(chan)
     C -->|range| R[consumer]
-    P -. close ch .-> C
+    P -.->|close ch| C
 ```
 
 `range` over a channel keeps reading until the channel is closed AND drained. Closing is the unambiguous "no more values" signal; closing twice or sending on a closed channel panics, so only the producer should close.

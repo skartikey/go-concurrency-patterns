@@ -13,8 +13,8 @@ Process a stream through several stages, where each stage is its own concurrent 
 flowchart LR
     G[stage gen] -->|out chan| SQ[stage square]
     SQ -->|out chan| C[consumer]
-    D[done chan] -. cancellation .-> G
-    D -. cancellation .-> SQ
+    D[done chan] -.->|cancellation| G
+    D -.->|cancellation| SQ
 ```
 
 Each stage:

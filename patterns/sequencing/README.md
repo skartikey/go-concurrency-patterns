@@ -13,8 +13,8 @@ Two or more producers should advance in lockstep: each waits for the coordinator
 flowchart LR
     A[runner A] -->|Step{ack chan}| M[main coordinator]
     B[runner B] -->|Step{ack chan}| M
-    M -. close ack .-> A
-    M -. close ack .-> B
+    M -.->|close ack| A
+    M -.->|close ack| B
 ```
 
 Each runner sends a struct that carries its result PLUS a `Done` channel. The runner blocks on `<-Done` until the coordinator closes it, then produces the next step. The ack channel is per-message, so coordination is naturally per-round.

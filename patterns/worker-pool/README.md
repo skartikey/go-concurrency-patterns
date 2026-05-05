@@ -17,7 +17,7 @@ flowchart LR
     W1 -->|results chan| C[consumer]
     W2 --> C
     W3 --> C
-    P -. close jobs .-> W1
+    P -.->|close jobs| W1
 ```
 
 N long-lived workers `range` over a shared jobs channel. The producer `close`s the jobs channel when finished; that unblocks each worker's range loop and lets it exit. A `WaitGroup` waits for all workers to finish before closing the results channel so the consumer can range over results too.

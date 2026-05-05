@@ -12,9 +12,9 @@ Multiple goroutines (and any work they spawn) need to be cancelled together when
 ```mermaid
 flowchart LR
     M[main] -->|cancel| CTX(ctx WithCancel)
-    CTX -. ctx.Done .-> W1[worker 1]
-    CTX -. ctx.Done .-> W2[worker 2]
-    CTX -. ctx.Done .-> W3[worker 3]
+    CTX -.->|ctx.Done| W1[worker 1]
+    CTX -.->|ctx.Done| W2[worker 2]
+    CTX -.->|ctx.Done| W3[worker 3]
 ```
 
 `context.WithCancel` returns a context and a `cancel` function. Calling `cancel` closes the context's `Done` channel; every goroutine selecting on `ctx.Done()` sees it immediately and exits. Standard-library functions (`http.NewRequestWithContext`, `db.QueryContext`, etc.) accept a context, so cancellation propagates into IO without extra plumbing.
