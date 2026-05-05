@@ -19,8 +19,7 @@ type Result struct {
 	Duration time.Duration
 }
 
-func worker(id int, jobs <-chan Job, results chan<- Result, wg *sync.WaitGroup) {
-	defer wg.Done()
+func worker(id int, jobs <-chan Job, results chan<- Result) {
 	fmt.Printf("[worker %d] online\n", id)
 	for j := range jobs {
 		start := time.Now()
@@ -46,8 +45,7 @@ func main() {
 
 	var wg sync.WaitGroup
 	for w := 1; w <= numWorkers; w++ {
-		wg.Add(1)
-		go worker(w, jobs, results, &wg)
+		wg.Go(func() { worker(w, jobs, results) })
 	}
 
 	go func() {

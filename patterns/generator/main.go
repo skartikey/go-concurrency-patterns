@@ -10,7 +10,7 @@ func fibonacci(n int) <-chan int {
 	go func() {
 		defer close(out)
 		a, b := 0, 1
-		for i := 0; i < n; i++ {
+		for i := range n {
 			fmt.Printf("[generator] producing fib(%d) = %d\n", i, a)
 			out <- a
 			a, b = b, a+b

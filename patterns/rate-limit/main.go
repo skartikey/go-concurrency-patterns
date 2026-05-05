@@ -6,8 +6,7 @@ import (
 	"time"
 )
 
-func worker(id int, tokens <-chan time.Time, jobs <-chan int, wg *sync.WaitGroup, start time.Time) {
-	defer wg.Done()
+func worker(id int, tokens <-chan time.Time, jobs <-chan int, start time.Time) {
 	fmt.Printf("[worker %d] online\n", id)
 	for j := range jobs {
 		<-tokens
@@ -35,8 +34,7 @@ func main() {
 		numJobs, numWorkers, ratePerSecond, interval)
 
 	for w := 1; w <= numWorkers; w++ {
-		wg.Add(1)
-		go worker(w, ticker.C, jobs, &wg, start)
+		wg.Go(func() { worker(w, ticker.C, jobs, start) })
 	}
 
 	go func() {

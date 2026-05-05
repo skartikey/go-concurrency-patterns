@@ -16,19 +16,16 @@ func main() {
 	fmt.Printf("[main] launching %d tasks, capped at %d concurrent\n", totalTasks, maxConcurrent)
 
 	for i := 1; i <= totalTasks; i++ {
-		wg.Add(1)
-		go func(id int) {
-			defer wg.Done()
-
-			fmt.Printf("[task %2d] waiting for slot\n", id)
+		wg.Go(func() {
+			fmt.Printf("[task %2d] waiting for slot\n", i)
 			sem <- struct{}{}
-			fmt.Printf("[task %2d] acquired slot, working\n", id)
+			fmt.Printf("[task %2d] acquired slot, working\n", i)
 
 			time.Sleep(250 * time.Millisecond)
 
-			fmt.Printf("[task %2d] releasing slot\n", id)
+			fmt.Printf("[task %2d] releasing slot\n", i)
 			<-sem
-		}(i)
+		})
 	}
 
 	wg.Wait()

@@ -39,20 +39,17 @@ func main() {
 	fmt.Printf("[main] downloading %d files, %d at a time\n", len(urls), maxConcurrent)
 
 	for i, u := range urls {
-		wg.Add(1)
-		go func(i int, url string) {
-			defer wg.Done()
-
-			fmt.Printf("[%s] waiting for slot\n", url)
+		wg.Go(func() {
+			fmt.Printf("[%s] waiting for slot\n", u)
 			sem <- struct{}{}
-			fmt.Printf("[%s] downloading\n", url)
+			fmt.Printf("[%s] downloading\n", u)
 
-			results[i] = download(url)
+			results[i] = download(u)
 
 			fmt.Printf("[%s] done in %v (%d bytes), releasing slot\n",
-				url, results[i].Duration.Round(time.Millisecond), results[i].Bytes)
+				u, results[i].Duration.Round(time.Millisecond), results[i].Bytes)
 			<-sem
-		}(i, u)
+		})
 	}
 
 	wg.Wait()

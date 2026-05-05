@@ -10,7 +10,7 @@ func source(name string, n int, interval time.Duration) <-chan string {
 	out := make(chan string)
 	go func() {
 		defer close(out)
-		for i := 0; i < n; i++ {
+		for i := range n {
 			out <- fmt.Sprintf("%s msg %d", name, i)
 			time.Sleep(interval)
 		}
@@ -22,13 +22,11 @@ func fanIn(inputs ...<-chan string) <-chan string {
 	out := make(chan string)
 	var wg sync.WaitGroup
 	for _, in := range inputs {
-		wg.Add(1)
-		go func(c <-chan string) {
-			defer wg.Done()
-			for msg := range c {
+		wg.Go(func() {
+			for msg := range in {
 				out <- msg
 			}
-		}(in)
+		})
 	}
 	go func() {
 		wg.Wait()
