@@ -18,7 +18,7 @@ flowchart LR
     W3 --> AGG
     W4 --> AGG
     AGG -->|stats| OUT[summary]
-    P -. close jobs .-> W1
+    P -.->|close jobs| W1
 ```
 
 - Producer drips jobs into a buffered channel and `close`s it when done.

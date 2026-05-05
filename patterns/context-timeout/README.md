@@ -14,7 +14,7 @@ flowchart LR
     M[main] -->|WithTimeout d| CTX(ctx with deadline)
     CTX --> OP[operation]
     OP -->|returns| M
-    CTX -. ctx.Done after d .-> OP
+    CTX -.->|ctx.Done after d| OP
 ```
 
 `context.WithTimeout` builds a context that auto-cancels after the given duration. The operation `select`s on its work and `ctx.Done()`; whichever fires first wins. Always `defer cancel()` so the context's resources are released even when the operation completes early.

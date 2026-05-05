@@ -14,7 +14,7 @@ flowchart LR
     G2 -->|acquire| S
     GN -->|acquire| S
     S -->|allow 3 at a time| W[download work]
-    W -. release .-> S
+    W -.->|release| S
 ```
 
 Every download is its own goroutine, but the buffered semaphore channel only lets 3 run their work at any moment. Others wait at `sem <- struct{}{}` until a slot frees.

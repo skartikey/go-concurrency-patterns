@@ -12,7 +12,7 @@ Lazily produce a sequence of values from a goroutine and let the caller pull the
 ```mermaid
 flowchart LR
     G[fibonacci goroutine] -->|out chan int| C[consumer for-range]
-    G -. close on done .-> C
+    G -.->|close on done| C
 ```
 
 The function spawns a goroutine, hands back a receive-only channel, and the caller `range`s over it. The goroutine `close`s the channel when the sequence ends, so the consumer's range loop exits naturally.

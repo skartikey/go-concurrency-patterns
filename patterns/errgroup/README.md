@@ -14,9 +14,9 @@ flowchart LR
     M[main] -->|g.Go| T1[task 1]
     M -->|g.Go| T2[task 2]
     M -->|g.Go| T3[task 3]
-    T1 -. error .-> CTX(shared ctx)
-    CTX -. cancel .-> T2
-    CTX -. cancel .-> T3
+    T1 -.->|error| CTX(shared ctx)
+    CTX -.->|cancel| T2
+    CTX -.->|cancel| T3
     M -->|g.Wait| RES[first error or nil]
 ```
 
