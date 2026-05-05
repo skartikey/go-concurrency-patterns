@@ -50,7 +50,6 @@ func main() {
 
 	fmt.Printf("[main] fetching %d URLs in parallel (errgroup + context)\n", len(urls))
 	for i, u := range urls {
-		i, u := i, u
 		g.Go(func() error {
 			r, err := fetch(ctx, u)
 			if err != nil {
