@@ -53,6 +53,7 @@ Example output (abridged from a real run):
 | Chain stream-processing stages | [pipeline](patterns/pipeline) |
 | Process many jobs with a fixed pool of workers | [worker-pool](patterns/worker-pool) |
 | Cap how many goroutines run a section at once | [concurrency-limit-semaphore](patterns/concurrency-limit-semaphore) |
+| Cap operations per second (throttling) | [rate-limit](patterns/rate-limit) |
 | Cancel work across goroutines | [context-cancel](patterns/context-cancel) |
 | Bound an operation's total time | [context-timeout](patterns/context-timeout) |
 | Run parallel tasks, fail-fast on any error | [errgroup](patterns/errgroup) |
@@ -81,6 +82,7 @@ Each pattern:
 | [pipeline](patterns/pipeline)                                       | Multi-stage processing                                      |
 | [worker-pool](patterns/worker-pool)                                 | Fixed pool of workers                                       |
 | [concurrency-limit-semaphore](patterns/concurrency-limit-semaphore) | Limit concurrent work                                       |
+| [rate-limit](patterns/rate-limit)                                   | Throttle operations per second with `time.Ticker`           |
 | [context-cancel](patterns/context-cancel)                           | Cancel work across goroutines                               |
 | [context-timeout](patterns/context-timeout)                         | Time-bound operations                                       |
 | [errgroup](patterns/errgroup)                                       | Parallel tasks with error handling                          |
