@@ -22,3 +22,28 @@ go.work
 
 # JetBrains IDEs
 .idea/
+
+# Stray binaries created by `go build ./patterns/<name>` or `./examples/<name>`.
+# Each one lands at the repo root with a name equal to the package's leaf dir.
+# Use `go run ./patterns/<name>` or `go build -o /dev/null ./patterns/<name>`
+# to avoid creating them. Add a new line here when adding a new pattern dir.
+/bounded-downloader
+/channel-range-close
+/concurrency-limit-semaphore
+/concurrent-fetcher
+/context-cancel
+/context-timeout
+/errgroup
+/fan-in
+/fan-out
+/generator
+/graceful-shutdown
+/job-queue-worker-pool
+/mutex-vs-channel
+/pipeline
+/pubsub-broadcast
+/rate-limit
+/select-loop
+/sequencing
+/timeout
+/worker-pool
