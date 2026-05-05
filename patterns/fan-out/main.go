@@ -10,16 +10,14 @@ func fanOut(jobs <-chan int, numWorkers int) <-chan string {
 	out := make(chan string)
 	var wg sync.WaitGroup
 	for w := 1; w <= numWorkers; w++ {
-		wg.Add(1)
-		go func(id int) {
-			defer wg.Done()
-			fmt.Printf("[worker %d] started\n", id)
+		wg.Go(func() {
+			fmt.Printf("[worker %d] started\n", w)
 			for j := range jobs {
 				time.Sleep(50 * time.Millisecond)
-				out <- fmt.Sprintf("worker %d processed job %d -> %d", id, j, j*j)
+				out <- fmt.Sprintf("worker %d processed job %d -> %d", w, j, j*j)
 			}
-			fmt.Printf("[worker %d] no more jobs, exiting\n", id)
-		}(w)
+			fmt.Printf("[worker %d] no more jobs, exiting\n", w)
+		})
 	}
 	go func() {
 		wg.Wait()

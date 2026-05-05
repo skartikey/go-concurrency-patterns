@@ -58,12 +58,10 @@ func runMutex(n int) (int, time.Duration) {
 	start := time.Now()
 	var c mutexCounter
 	var wg sync.WaitGroup
-	for i := 0; i < n; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+	for range n {
+		wg.Go(func() {
 			c.inc()
-		}()
+		})
 	}
 	wg.Wait()
 	return c.read(), time.Since(start)
@@ -74,12 +72,10 @@ func runChannel(n int) (int, time.Duration) {
 	c := newChannelCounter()
 	defer c.close()
 	var wg sync.WaitGroup
-	for i := 0; i < n; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+	for range n {
+		wg.Go(func() {
 			c.inc()
-		}()
+		})
 	}
 	wg.Wait()
 	return c.read(), time.Since(start)
