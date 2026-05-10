@@ -55,6 +55,7 @@ Example output (abridged from a real run):
 | Cap how many goroutines run a section at once | [concurrency-limit-semaphore](patterns/concurrency-limit-semaphore) |
 | Cap operations per second (throttling) | [rate-limit](patterns/rate-limit) |
 | Fan one stream out to many subscribers | [pubsub-broadcast](patterns/pubsub-broadcast) |
+| Shut down cleanly on SIGINT/SIGTERM | [signal-handling](patterns/signal-handling) |
 | Cancel work across goroutines | [context-cancel](patterns/context-cancel) |
 | Bound an operation's total time | [context-timeout](patterns/context-timeout) |
 | Run parallel tasks, fail-fast on any error | [errgroup](patterns/errgroup) |
@@ -85,6 +86,7 @@ Each pattern:
 | [concurrency-limit-semaphore](patterns/concurrency-limit-semaphore) | Limit concurrent work                                       |
 | [rate-limit](patterns/rate-limit)                                   | Throttle operations per second with `time.Ticker`           |
 | [pubsub-broadcast](patterns/pubsub-broadcast)                       | Broker fans one publisher's messages out to many subscribers |
+| [signal-handling](patterns/signal-handling)                         | Graceful shutdown on SIGINT/SIGTERM via `signal.NotifyContext` |
 | [context-cancel](patterns/context-cancel)                           | Cancel work across goroutines                               |
 | [context-timeout](patterns/context-timeout)                         | Time-bound operations                                       |
 | [errgroup](patterns/errgroup)                                       | Parallel tasks with error handling                          |
