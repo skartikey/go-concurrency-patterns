@@ -45,5 +45,6 @@ go.work
 /rate-limit
 /select-loop
 /sequencing
+/signal-handling
 /timeout
 /worker-pool
