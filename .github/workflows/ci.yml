@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build / vet / format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: go build
+        run: go build ./...
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: gofmt
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "Files needing gofmt:"
+            echo "$unformatted"
+            exit 1
+          fi
+
+  smoke:
+    name: smoke-run each pattern with -race
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: run each pattern with race detector
+        run: |
+          set -e
+          for d in patterns/*/; do
+            name=$(basename "$d")
+            echo "=== patterns/$name ==="
+            timeout 30s go run -race ./patterns/$name > /dev/null
+          done
+
+      - name: run each example with race detector (skip concurrent-fetcher; needs network)
+        run: |
+          set -e
+          for d in examples/*/; do
+            name=$(basename "$d")
+            if [ "$name" = "concurrent-fetcher" ]; then
+              echo "=== examples/$name (build only; runtime needs network) ==="
+              go build -o /dev/null ./examples/$name
+              continue
+            fi
+            echo "=== examples/$name ==="
+            timeout 30s go run -race ./examples/$name > /dev/null
+          done
